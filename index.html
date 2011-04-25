@@ -1,51 +1,70 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title>Ximius project</title>
-		<script type="text/javascript" src="ximius.js"></script>
-		<style>
-			input { font-size:20pt; margin:8px 2px; }
-		</style>
-	</head>
-	<body>
-		<h2>Ximius animation framework</h2>
+    <head>
+        <meta charset="utf-8" />
+        <title>Ximius project</title>
+        <script type="text/javascript" src="ximius.js">
+        </script>
+        <style>
+        	body  {
+        		font-family:"Lucida Grande","Lucida Sans Unicode",Arial,Verdana,sans-serif;
+        	}
+			
+            input {
+                font-size: 20pt;
+                margin: 8px 2px;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Ximius animation framework</h2>
+        <p>
+            This a demonstration of Ximius' animation capabilities. For full reference, please visit : <a href="http://www.ximius.org">www.ximius.org</a>.
+        </p>
+        <input type="button" value="Play" id="play" onclick="javascript:scene.play();"/><input type="button" value="Pause" id="pause" onclick="javascript:scene.pause();"/><input type="button" value="Reset" onclick="javascript:scene.reset();"/><input type="button" value="End" onclick="javascript:scene.end();"/>
+        <br/>
 		
-		<p>This a demonstration of Ximius' animation capabilities. For full reference, please visit : <a href="http://www.ximius.org">www.ximius.org</a>.</p>
-	
-		<input type="button" value="Play"  id="play" 	onclick="javascript:scene.play();" />
-		<input type="button" value="Pause" id="pause"	onclick="javascript:scene.pause();" />
-		<input type="button" value="Reset" 				onclick="javascript:scene.reset();" />
-		<input type="button" value="End" 				onclick="javascript:scene.end();" />
-		<br />
-		
-		<canvas id="myCanvas" width="800" height="600" style="border:2px dashed #c0c0c0"></canvas>
-		
-		<script type="text/javascript">
-		var blue = new Xim.Shapes.Rectangle(0, 0, 800, 300,
-		{background:{gradient:true, from:"#00ABEB", to:"#ffffff", direction:Xim.VERTICAL_GRADIENT}});
-		
-		var green = new Xim.Shapes.Rectangle(0, 300, 800, 300,
-		{background:{gradient:true, from:"#fff", to:"#26C000", direction:Xim.VERTICAL_GRADIENT}});
-		
-		var rect = new Xim.Shapes.Rectangle(800, 30, 40, 40, {background:{color:"#fff", opacity:0.5}});
-		var line = new Xim.Shapes.Rectangle(100, -700, 50, 2400, {background: {color: "yellow", opacity: 0.5}});
-		
-		var img = new Xim.Image("https://github.com/Ximius/Ximius/raw/master/ximius.png", -250, 260);
-		
-		var layer = new Xim.Layer(800, 600, {id:"myLayer"});
-		layer.add(blue, green, img);
-		layer.add(rect, line);
-		
-		var canvas = new Xim.Canvas("myCanvas");
-		canvas.draw(layer);
-		
-		var scene = new Xim.Scene(layer, canvas, 2000, {repeat:true});
-		scene.animate(img, {x:800});
-		
-		scene.animate(rect, {rotation:-1080, x:-400, width:80, height:80, opacity:0});
-		scene.animate(line, {rotation:360});
-		</script>
-		
-	</body>
-</html> 
+        <canvas id="animation-canvas" width="800" height="600" style="border:2px dashed #c0c0c0"></canvas>
+        <script type="text/javascript">
+        	
+            var blue = new Xim.Shapes.Rectangle(0, -300, 800, 300, 
+            {background: {gradient: true, from: "#00ABEB", to: "#ffffff", direction: Xim.VERTICAL_GRADIENT}});
+            
+            var green = new Xim.Shapes.Rectangle(0, 900, 800, 300, 
+            {background: {gradient: true, from: "#fff", to: "#26C000", direction: Xim.VERTICAL_GRADIENT}});
+			
+            var rect = new Xim.Shapes.Rectangle(805, 298, 820, 4, 
+            {opacity:0, background: {color: "#ffff00"}});
+			
+            var img = new Xim.Image("ximius.png", -250, 250);
+			var star = new Xim.Image("starius.png", 700, 20, {opacity:0.6});
+			
+            var layer = new Xim.Layer(800, 600);
+            
+            layer.add(blue, green);
+            layer.add(rect, img, star);
+            
+            var canvas = new Xim.Canvas("animation-canvas");
+            canvas.draw(layer);
+            
+            var scene = new Xim.Scene(layer, canvas, 1000, {repeat: true, frameRate: 1000});
+			
+			scene.animate(blue, 50, 100, {y:0});
+			scene.animate(green, 50, 100, {y:300});
+			
+			scene.animate(star, 1, 1000, {rotation:1800});
+			
+			scene.animate(rect, 100, 200, {x:-5, opacity:0.3});
+			scene.animate(rect, 251, 300, {height:100, y:250});
+			scene.animate(img, 290, 340, {x:300});
+			
+			scene.animate(rect, 700, 750, {rotation:-180});
+			scene.animate(img, 800, 900, {x:-220});
+			scene.animate(rect, 850, 950, {x:800, opacity:0});
+			
+			scene.animate(blue, 900, 950, {opacity:0});
+			scene.animate(green, 900, 950, {opacity:0});
+			
+        </script>
+    </body>
+</html>
