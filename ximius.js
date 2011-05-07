@@ -5,7 +5,7 @@
 
 var Xim = 
 {
-	about: "Ximius animation API, version 0.2"
+	version: "Ximius version 0.2"
 };
 
 /* Ximius namespaces */
@@ -739,7 +739,7 @@ Xim.Canvas = function(canvasId /* required */, config /* optional */)
 Xim.Animation = {};
 
 /* Global animation constants */
-Xim.Animation.NB_FRAMES_PER_SECOND = 48;
+Xim.Animation.NB_FRAMES_PER_SECOND = 60;
 Xim.Animation.PARAMETERS = ["x", "y", "rotation", "width", "height", "opacity"];
 
 /* Global animation variables */
