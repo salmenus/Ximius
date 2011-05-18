@@ -1,6 +1,7 @@
 /* 
- * The XIMIS animation framework
- * Salmen Hichri, April 2011
+ * The Ximius animation framework
+ * Salmen Hichri, May 2011
+ * http://www.ximius.org
  */
 
 var Xim = 
@@ -8,19 +9,21 @@ var Xim =
 	version: "Ximius version 0.2"
 };
 
-/* Ximius namespaces */
-Xim.Shapes = {}; // The drawable forms
-/* The gradient orientations constants */
-Xim.HORIZONTAL_GRADIENT = 2001;
-Xim.VERTICAL_GRADIENT = 2002;
+/* Ximius packages */
+Xim.Drawing = {};
 
 /* The color management package */
 Xim.Style = 
 {
-	// The possible color types in Ximius
+	/* The possible color types in Ximius */
 	SIMPLE_FILL: 1001, /* A unique color */
 	TRANSPARENT_FILL: 1002, /* A unique transparent color */
 	GRADIENT_FILL: 1003, /* A gradient color that could be transparent */
+	
+	/* The gradient orientations constants */
+	HORIZONTAL_GRADIENT: 2001,
+	VERTICAL_GRADIENT: 2002,
+	
 	/* Check is color HEX color */
 	isColor: function(color)
 	{
@@ -62,7 +65,7 @@ Xim.Style =
 	/* Check direction for gradient */
 	isGradientDirection: function(direction)
 	{
-		return typeof(direction) === "number" && (direction === Xim.HORIZONTAL_GRADIENT || direction === Xim.VERTICAL_GRADIENT);
+		return typeof(direction) === "number" && (direction === Xim.Style.HORIZONTAL_GRADIENT || direction === Xim.Style.VERTICAL_GRADIENT);
 	}
 };
 
@@ -82,7 +85,7 @@ Xim.Style.Color = function(config /* required */)
 	// Check and initialize config
 	if (typeof(config) === "undefined" || config === null || (typeof(config) !== "object" && typeof(config) !== "string")) 
 	{
-		throw "Xim.Style.Color : Color config is required [Color config should be a string value or a Xim color descriptor] [more details about this error on http://ximi.us/api/colors]";
+		throw "Xim.Style.Color : Color config is required [Color config should be a string value or a Xim color descriptor] [more details about this error on http://ww.ximius.org/api/colors]";
 	}
 	
 	// Identify fill color type
@@ -122,7 +125,7 @@ Xim.Style.Color = function(config /* required */)
 			}
 			else 
 			{
-				throw "Xim.Style.Color : Unidentifiable fill style configuration [Fill style should be a simple color, transparent color, or a gradient] [more details about this error on http://ximi.us/api/fill-styles]";
+				throw "Xim.Style.Color : Unidentifiable fill style configuration [Fill style should be a simple color, transparent color, or a gradient] [more details about this error on http://www.ximius.org/api/fill-styles]";
 			}
 		}
 	}
@@ -132,17 +135,17 @@ Xim.Style.Color = function(config /* required */)
 	{
 		if (typeof(context) === "undefined" || context === null || !(context instanceof CanvasRenderingContext2D)) 
 		{
-			throw "Xim.Style.Color.applyToFill() : Wrong parameter type [\"context\" should be an instance of \"CanvasRenderingContext2D\"] [more details about this error on http://ximi.us/api/fill-styles]";
+			throw "Xim.Style.Color.applyToFill() : Wrong parameter type [\"context\" should be an instance of \"CanvasRenderingContext2D\"] [more details about this error on http://www.ximius.org/api/fill-styles]";
 		}
 		
 		if (fillType === Xim.Style.GRADIENT_FILL && (typeof(xPos) !== "number" || typeof(yPos) !== "number" || typeof(width) !== "number" || typeof(height) !== "number")) 
 		{
-			throw "Xim.Style.Color.applyToFill() : Missing parameters [In order to apply a gradient filling, gradient start and end points should be specified] [more details about this error on http://ximi.us/api/fill-styles]";
+			throw "Xim.Style.Color.applyToFill() : Missing parameters [In order to apply a gradient filling, gradient start and end points should be specified] [more details about this error on http://www.ximius.org/api/fill-styles]";
 		}
 		
 		if (fillType === Xim.Style.GRADIENT_FILL && dir === null) 
 		{
-			throw "Xim.Style.Color.applyToFill() : For gradient fills, gradient direction should be specified [more details about this error on http://ximi.us/api/fill-styles]";
+			throw "Xim.Style.Color.applyToFill() : For gradient fills, gradient direction should be specified [more details about this error on http://www.ximius.org/api/fill-styles]";
 		}
 		
 		// Simple color
@@ -174,7 +177,7 @@ Xim.Style.Color = function(config /* required */)
 			case Xim.Style.GRADIENT_FILL:
 				var xEnd, yEnd;
 				
-				if (dir === Xim.HORIZONTAL_GRADIENT) 
+				if (dir === Xim.Style.HORIZONTAL_GRADIENT) 
 				{
 					xEnd = xPos + width;
 					yEnd = yPos;
@@ -234,12 +237,12 @@ Xim.Layer = function(width /* required */, height /* required */, config /* opti
 	// Check requited paramaters
 	if (typeof(width) === "undefined" || typeof(height) === "undefined") 
 	{
-		throw "Xim.Layer : Missing required constructor paramters [more details about this error on http://ximi.us/api/drawing]";
+		throw "Xim.Layer : Missing required constructor paramters [more details about this error on http://www.ximius.org/api/drawing]";
 	}
 	
 	if (width === null || isNaN(width) || height === null || isNaN(height)) 
 	{
-		throw "Xim.Layer : Wrong constructor parameter types [more details about this error on http://ximi.us/api/drawing]";
+		throw "Xim.Layer : Wrong constructor parameter types [more details about this error on http://www.ximius.org/api/drawing]";
 	}
 	
 	var id = null;
@@ -261,7 +264,7 @@ Xim.Layer = function(width /* required */, height /* required */, config /* opti
 			
 			if (!ximObj.isDrawable) 
 			{
-				throw "Xim.Layer : Wrong parameter type [Only \"Xim.Drawable\" objects could be added to a drawing] [more details about this error on http://ximi.us/api/drawing]";
+				throw "Xim.Layer : Wrong parameter type [Only \"Xim.Drawing.Drawable\" objects could be added to a drawing] [more details about this error on http://www.ximius.org/api/drawing]";
 			}
 			
 			objects[objects.length] = ximObj;
@@ -313,16 +316,16 @@ Xim.Layer = function(width /* required */, height /* required */, config /* opti
 };
 
 /* Drawable object */
-Xim.Drawable =/* @abstract */ function(x /* required */, y /* required */, width /* optional */, height /* optional */, config /* optional */)
+Xim.Drawing.Drawable =/* @abstract */ function(x /* required */, y /* required */, width /* optional */, height /* optional */, config /* optional */)
 {
 	if (typeof(x) === "undefined" || typeof(y) === "undefined") 
 	{
-		throw "Xim.Drawable : Missing constructor required paramters [more details about this error on http://ximi.us/api/drawing]";
+		throw "Xim.Drawing.Drawable : Missing constructor required paramters [more details about this error on http://www.ximius.org/api/drawing]";
 	}
 	
 	if (x === null || isNaN(x) || y === null || isNaN(y)) 
 	{
-		throw "Xim.Drawable : Wrong constructor parameter types [more details about this error on http://ximi.us/api/drawing]";
+		throw "Xim.Drawing.Drawable : Wrong constructor parameter types [more details about this error on http://www.ximius.org/api/drawing]";
 	}
 	
 	var clazz = this;
@@ -431,7 +434,7 @@ Xim.Drawable =/* @abstract */ function(x /* required */, y /* required */, width
 	/* @abstract @protected | Draw a object in the canvas context */
 	this.__drawInContext = function(context /* required */)
 	{
-		throw "Xim.Drawable.__drawInContext() : Call to abstract function [This function should be called from an implementation of the abstract class \"Xim.Drawable\"] [more details about this error on http://ximi.us/api/drawing]";
+		throw "Xim.Drawing.Drawable.__drawInContext() : Call to abstract function [This function should be called from an implementation of the abstract class \"Xim.Drawing.Drawable\"] [more details about this error on http://www.ximius.org/api/drawing]";
 	};
 	
 	/* @protect | Initialize context */
@@ -452,23 +455,23 @@ Xim.Drawable =/* @abstract */ function(x /* required */, y /* required */, width
 };
 
 /* Rectangle */
-Xim.Shapes.Rectangle = function(x /* required */, y /* required */, width /* required */, height /* required */, config /* optional */)
+Xim.Drawing.Rectangle = function(x /* required */, y /* required */, width /* required */, height /* required */, config /* optional */)
 {
-	// Inherit from Xim.Drawable
-	Xim.Drawable.call(this, x, y, width, height, config);
+	// Inherit from Xim.Drawing.Drawable
+	Xim.Drawing.Drawable.call(this, x, y, width, height, config);
 	
 	var clazz = this;
 	
 	// Check required parameters
 	if (typeof(width) === "undefined" || typeof(height) === "undefined") 
 	{
-		throw "Xim.Rectangle : Missing required constructor paramters [more details about this error on http://ximi.us/api/forms]";
+		throw "Xim.Drawing.Rectangle : Missing required constructor paramters [more details about this error on http://www.ximius.org/api/forms]";
 	}
 	
 	// Check param types
 	if (width === null || isNaN(width) || height === null || isNaN(height)) 
 	{
-		throw "Xim.Rectangle : Wrong constructor parameter types [more details about this error on http://ximi.us/api/forms]";
+		throw "Xim.Drawing.Rectangle : Wrong constructor parameter types [more details about this error on http://www.ximius.org/api/forms]";
 	}
 	
 	/* @protected | Draw the rectangle in the specified context */
@@ -476,7 +479,7 @@ Xim.Shapes.Rectangle = function(x /* required */, y /* required */, width /* req
 	{
 		if (typeof(context) === "undefined" || context === null || !(context instanceof CanvasRenderingContext2D)) 
 		{
-			throw "Xim.Rectangle.draw() : Wrong parameter type [\"context\" should be an instance of \"CanvasRenderingContext2D\"] [more details about this error on http://ximi.us/api/forms]";
+			throw "Xim.Drawing.Rectangle.draw() : Wrong parameter type [\"context\" should be an instance of \"CanvasRenderingContext2D\"] [more details about this error on http://www.ximius.org/api/forms]";
 		}
 		
 		context.save();
@@ -518,15 +521,15 @@ Xim.Shapes.Rectangle = function(x /* required */, y /* required */, width /* req
 };
 
 /* Image */
-Xim.Image = function(url /* required */, x/* required */, y /* required */, config /* optional */)
+Xim.Drawing.Image = function(url /* required */, x/* required */, y /* required */, config /* optional */)
 {
-	// Inherit from Xim.Drawable
+	// Inherit from Xim.Drawing.Drawable
 	if (typeof(config) !== "object" || config === null) 
 	{
 		config = {};
 	}
 	
-	Xim.Drawable.call(this, x, y, config.width, config.height, config);
+	Xim.Drawing.Drawable.call(this, x, y, config.width, config.height, config);
 	
 	var clazz = this;
 	var initializer = {};
@@ -534,13 +537,13 @@ Xim.Image = function(url /* required */, x/* required */, y /* required */, conf
 	// Check required parameters
 	if (typeof(url) === "undefined") 
 	{
-		throw "Xim.Image : Missing required constructor paramter \"url\" [more details about this error on http://ximi.us/api/image]";
+		throw "Xim.Drawing.Image : Missing required constructor paramter \"url\" [more details about this error on http://www.ximius.org/api/image]";
 	}
 	
 	// Check param types
 	if (typeof(url) !== "string" || url === "") 
 	{
-		throw "Xim.Image : Wrong constructor parameter types [more details about this error on http://ximi.us/api/image]";
+		throw "Xim.Drawing.Image : Wrong constructor parameter types [more details about this error on http://www.ximius.org/api/image]";
 	}
 	
 	// Initialize config function
@@ -596,7 +599,7 @@ Xim.Image = function(url /* required */, x/* required */, y /* required */, conf
 	{
 		if (typeof(context) === "undefined" || context === null || !(context instanceof CanvasRenderingContext2D)) 
 		{
-			throw "Xim.Rectangle.draw() : Wrong parameter type [\"context\" should be an instance of \"CanvasRenderingContext2D\"] [more details about this error on http://ximi.us/api/forms]";
+			throw "Xim.Drawing.Rectangle.draw() : Wrong parameter type [\"context\" should be an instance of \"CanvasRenderingContext2D\"] [more details about this error on http://www.ximius.org/api/forms]";
 		}
 		
 		// Draw image and stroke
@@ -661,13 +664,13 @@ Xim.Canvas = function(canvasId /* required */, config /* optional */)
 	// Check required parameters
 	if (typeof(canvasId) === "undefined") 
 	{
-		throw "Xim.LayerArea : Missing required constructor paramter [\"canvasId\" is needed] [more details about this error on http://ximi.us/api/drawing]";
+		throw "Xim.LayerArea : Missing required constructor paramter [\"canvasId\" is needed] [more details about this error on http://www.ximius.org/api/drawing]";
 	}
 	
 	// Check param types
 	if (typeof(canvasId) !== "string" || canvasId === "") 
 	{
-		throw "Xim.LayerArea : Wrong constructor parameter type [\"canvasId\" should be a nonempty string] [more details about this error on http://ximi.us/api/drawing]";
+		throw "Xim.LayerArea : Wrong constructor parameter type [\"canvasId\" should be a nonempty string] [more details about this error on http://www.ximius.org/api/drawing]";
 	}
 	
 	/* @public | Assign a canvas */
@@ -676,13 +679,13 @@ Xim.Canvas = function(canvasId /* required */, config /* optional */)
 	
 		if (typeof(pramCanvasId) !== "string" || pramCanvasId === "") 
 		{
-			throw "Xim.LayerArea.setCanvasId() : Wrong parameter type [\"canvasId\" should be a nonempty string] [more details about this error on http://ximi.us/api/drawing]";
+			throw "Xim.LayerArea.setCanvasId() : Wrong parameter type [\"canvasId\" should be a nonempty string] [more details about this error on http://www.ximius.org/api/drawing]";
 		}
 		
 		var canvasObj = document.getElementById(pramCanvasId);
 		if (typeof(canvasObj) !== "object" || canvasObj === null || canvasObj.tagName.toUpperCase() !== "CANVAS") 
 		{
-			throw "Xim.LayerArea.setCanvasId() : Drawing area is not found or is not a canvas [more details about this error on http://ximi.us/api/drawing]";
+			throw "Xim.LayerArea.setCanvasId() : Drawing area is not found or is not a canvas [more details about this error on http://www.ximius.org/api/drawing]";
 		}
 		
 		canvasId = pramCanvasId;
@@ -708,12 +711,12 @@ Xim.Canvas = function(canvasId /* required */, config /* optional */)
 	{
 		if (typeof(aDrawing) !== "object" || aDrawing === null) 
 		{
-			throw "Xim.LayerArea.draw() : Missing required paramter [\"drawing\" is needed] [more details about this error on http://ximi.us/api/drawing]";
+			throw "Xim.LayerArea.draw() : Missing required paramter [\"drawing\" is needed] [more details about this error on http://www.ximius.org/api/drawing]";
 		}
 		
 		if (!(aDrawing instanceof Xim.Layer)) 
 		{
-			throw "Xim.LayerArea.draw() : Wrong parameter type [\"drawing\" should be a \"Xim.Layer\" instance] [more details about this error on http://ximi.us/api/drawing]";
+			throw "Xim.LayerArea.draw() : Wrong parameter type [\"drawing\" should be a \"Xim.Layer\" instance] [more details about this error on http://www.ximius.org/api/drawing]";
 		}
 		
 		var canvas = document.getElementById(canvasId);
@@ -751,7 +754,7 @@ Xim.animate = function(sceneId /* required */)
 	var scene = Xim.Animation.CurrentScenes[sceneId];
 	if (scene === null) 
 	{
-		throw "Xim.animate : Wrong constructor parameter value [Parameter \"sceneId\" don't match any scene] [more details about this error on http://ximi.us/api/animation]";
+		throw "Xim.animate : Wrong constructor parameter value [Parameter \"sceneId\" don't match any scene] [more details about this error on http://www.ximius.org/api/animation]";
 	}
 	
 	if (!scene.playing) 
@@ -791,12 +794,12 @@ Xim.Scene = function(layer /* required */, canvas /* required */, nbFrames /* re
 
 	if (!(layer instanceof Xim.Layer) || !(canvas instanceof Xim.Canvas) || typeof(nbFrames) !== "number") 
 	{
-		throw "Xim.Scene : Wrong constructor parameter types [more details about this error on http://ximi.us/api/animation]";
+		throw "Xim.Scene : Wrong constructor parameter types [more details about this error on http://www.ximius.org/api/animation]";
 	}
 	
 	if (nbFrames <= 0) 
 	{
-		throw "Xim.Scene : Wrong constructor parameter value [Parameter \"nbFrames\" should be a positive number] [more details about this error on http://ximi.us/api/animation]";
+		throw "Xim.Scene : Wrong constructor parameter value [Parameter \"nbFrames\" should be a positive number] [more details about this error on http://www.ximius.org/api/animation]";
 	}
 	
 	if (typeof(config) !== "object" || config === null) 
@@ -918,28 +921,28 @@ Xim.Scene = function(layer /* required */, canvas /* required */, nbFrames /* re
 	{
 		if (typeof(obj) !== "object" || !obj.isDrawable || typeof(obj.__id) !== "string" || obj.__id === "") 
 		{
-			throw "Xim.Scene.animate() : Wrong parameter type [Only \"Xim.Drawable\" objects could be added to an scene] [more details about this error on http://ximi.us/api/animation]";
+			throw "Xim.Scene.animate() : Wrong parameter type [Only \"Xim.Drawing.Drawable\" objects could be added to an scene] [more details about this error on http://www.ximius.org/api/animation]";
 		}
 		
 		if (!scene.layer.contains(obj)) 
 		{
-			throw "Xim.Scene.animate() : Object to don't belongs to layer [Can't add to the scene an object that don't belongs to one of its layers] [more details about this error on http://ximi.us/api/animation]";
+			throw "Xim.Scene.animate() : Object to don't belongs to layer [Can't add to the scene an object that don't belongs to one of its layers] [more details about this error on http://www.ximius.org/api/animation]";
 		}
 		
 		
 		if (isNaN(fromFrame) || fromFrame <= 0 || fromFrame > nbFrames || isNaN(toFrame) || toFrame <= 0 || toFrame > nbFrames) 
 		{
-			throw "Xim.Scene.animate() : Wrong parameter types or values [Parameters \"fromFrame\" and \"toFrame\" should be positive integers between 1 and \"nbFrames\"] [more details about this error on http://ximi.us/api/animation]";
+			throw "Xim.Scene.animate() : Wrong parameter types or values [Parameters \"fromFrame\" and \"toFrame\" should be positive integers between 1 and \"nbFrames\"] [more details about this error on http://www.ximius.org/api/animation]";
 		}
 		
 		if (fromFrame > toFrame) 
 		{
-			throw "Xim.Scene.animate() : Wrong parameter value [Paramer \"fromFrame\" should be less than or equals to \"toFrame\"] [more details about this error on http://ximi.us/api/animation]";
+			throw "Xim.Scene.animate() : Wrong parameter value [Paramer \"fromFrame\" should be less than or equals to \"toFrame\"] [more details about this error on http://www.ximius.org/api/animation]";
 		}
 		
 		if (typeof(final) !== "object") 
 		{
-			throw "Xim.Animatin.animate() : Wrong parameter type [Parameter \"final\" should be an object status descriptor] [more details about this error on http://ximi.us/api/animation]";
+			throw "Xim.Animatin.animate() : Wrong parameter type [Parameter \"final\" should be an object status descriptor] [more details about this error on http://www.ximius.org/api/animation]";
 		}
 		
 		var index = obj.__id;
@@ -969,7 +972,7 @@ Xim.Scene = function(layer /* required */, canvas /* required */, nbFrames /* re
 		{
 			if (scene.__objects[index].animators[animIndex].intersect(fromFrame, toFrame)) 
 			{
-				throw "Xim.Animatin.animate() : Can't add animation to the object [\"fromFrame\" and \"toFrame\" should not intersect with other animators on this object] [more details about this error on http://ximi.us/api/animation]";
+				throw "Xim.Animatin.animate() : Can't add animation to the object [\"fromFrame\" and \"toFrame\" should not intersect with other animators on this object] [more details about this error on http://www.ximius.org/api/animation]";
 			}
 		}
 		
@@ -1054,7 +1057,7 @@ Xim.Animator = function(objId /* required */, animatorPosition /* required */, s
 {
 	if (isNaN(fromFrame) || isNaN(toFrame) || (toFrame - fromFrame) < 0) 
 	{
-		throw "Xim.Animator : Wrong constructor parameter types [\"fromFrame\" and \"toFrame\" should be two positive integers and \"fromFrame\" should be less than or equals to \"toFrame\"] [more details about this error on http://ximi.us/api/animation]";
+		throw "Xim.Animator : Wrong constructor parameter types [\"fromFrame\" and \"toFrame\" should be two positive integers and \"fromFrame\" should be less than or equals to \"toFrame\"] [more details about this error on http://www.ximius.org/api/animation]";
 	}
 	
 	var animator = this;
@@ -1099,7 +1102,7 @@ Xim.Animator = function(objId /* required */, animatorPosition /* required */, s
 	{
 		if (typeof(positionParam) !== "number" || positionParam < 0) 
 		{
-			throw "Xim.Animator.setPosition() : Wrong parameter type [\"positionParam\" should be a positive number] [more details about this error on http://ximi.us/api/animation]";
+			throw "Xim.Animator.setPosition() : Wrong parameter type [\"positionParam\" should be a positive number] [more details about this error on http://www.ximius.org/api/animation]";
 		}
 		
 		position = positionParam;
