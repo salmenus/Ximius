@@ -1233,3 +1233,4 @@ Xim.Animator = function(objId /* required */, animatorPosition /* required */, s
 	};
 };
 
+
