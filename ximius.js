@@ -1,12 +1,17 @@
-/* 
+/*
+ * 
  * The Ximius animation framework
- * Salmen Hichri, May 2011
+ * Developed and maintained by Salmen Hichri
+ * salmen (dot) hichri (at) gmail (dot) com
+ *
+ * June 2012
  * http://www.ximius.org
+ *
  */
 
 var Xim = 
 {
-	version: "Ximius version 0.2"
+	version: "Ximius version 0.5"
 };
 
 /* Ximius packages */
@@ -742,7 +747,7 @@ Xim.Canvas = function(canvasId /* required */, config /* optional */)
 Xim.Animation = {};
 
 /* Global animation constants */
-Xim.Animation.NB_FRAMES_PER_SECOND = 60;
+Xim.Animation.NB_FRAMES_PER_SECOND = 70;
 Xim.Animation.PARAMETERS = ["x", "y", "rotation", "width", "height", "opacity"];
 
 /* Global animation variables */
@@ -1232,5 +1237,3 @@ Xim.Animator = function(objId /* required */, animatorPosition /* required */, s
 		}
 	};
 };
-
-
